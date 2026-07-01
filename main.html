@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAISON NOIR — Contemporary Clothing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+            oswald: ['Oswald', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; font-feature-settings: 'cv11', 'ss01'; background: #FAFAFA; color: #171717; overflow-x: hidden; }
+
+    /* Grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 128px 128px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { opacity: 0; animation: fadeUp 0.8s ease-out forwards; }
+    .fade-up-d1 { animation-delay: 100ms; }
+    .fade-up-d2 { animation-delay: 200ms; }
+    .fade-up-d3 { animation-delay: 300ms; }
+    .fade-up-d4 { animation-delay: 400ms; }
+    .fade-up-d5 { animation-delay: 500ms; }
+    .fade-up-d6 { animation-delay: 600ms; }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .marquee-track { animation: scroll 40s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+
+    @keyframes pulse-bg {
+      0%, 100% { transform: scale(1.05); }
+      50% { transform: scale(1.12); }
+    }
+    .hero-bg-pulse { animation: pulse-bg 12s ease-in-out infinite; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .float-anim { animation: float 6s ease-in-out infinite; }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer {
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+      background-size: 200% 100%;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes revealLine {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes countUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+    .toast-in { animation: slideInRight 0.4s ease-out forwards; }
+    .toast-out { animation: slideOutRight 0.4s ease-in forwards; }
+
+    @keyframes bump { 0% { transform: scale(1); } 50% { transform: scale(1.5); } 100% { transform: scale(1); } }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #FAFAFA; }
+    ::-webkit-scrollbar-thumb { background: #D4D4D4; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #A3A3A3; }
+
+    .product-card .product-img { transition: transform 700ms ease; }
+    .product-card:hover .product-img { transform: scale(1.08); }
+    .product-card .product-actions { opacity: 0; transform: translateY(12px); transition: all 400ms cubic-bezier(0.4,0,0.2,1); }
+    .product-card:hover .product-actions { opacity: 1; transform: translateY(0); }
+    .product-card .product-tag { transition: all 300ms ease; }
+    .product-card:hover .product-tag { background-color: #171717; color: #FAFAFA; }
+    .product-card .color-dots { opacity: 0; transition: opacity 300ms ease 100ms; }
+    .product-card:hover .color-dots { opacity: 1; }
+    .product-card .second-img { opacity: 0; transition: opacity 700ms ease; }
+    .product-card:hover .second-img { opacity: 1; }
+
+    .collection-card .collection-img { transition: transform 1200ms cubic-bezier(0.4,0,0.2,1); }
+    .collection-card:hover .collection-img { transform: scale(1.08); }
+    .collection-card .collection-overlay { transition: all 500ms ease; }
+    .collection-card:hover .collection-overlay { background: rgba(0,0,0,0.55); }
+    .collection-card .collection-line { width: 0; transition: width 500ms ease 100ms; }
+    .collection-card:hover .collection-line { width: 48px; }
+
+    .editorial-card img { transition: transform 1000ms cubic-bezier(0.4,0,0.2,1); }
+    .editorial-card:hover img { transform: scale(1.04); }
+    .editorial-card .ed-overlay { opacity: 0; transition: opacity 500ms ease; }
+    .editorial-card:hover .ed-overlay { opacity: 1; }
+
+    .nav-link { position: relative; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: #FAFAFA; transition: width 300ms ease; }
+    .nav-link:hover::after { width: 100%; }
+
+    .mobile-menu { transform: translateX(100%); transition: transform 500ms cubic-bezier(0.4,0,0.2,1); }
+    .mobile-menu.open { transform: translateX(0); }
+
+    .magnetic-btn { transition: transform 200ms ease; }
+
+    .bento-card { transition: all 500ms cubic-bezier(0.4,0,0.2,1); }
+    .bento-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -12px rgba(0,0,0,0.12); }
+    .bento-card img { transition: transform 800ms ease; }
+    .bento-card:hover img { transform: scale(1.05); }
+
+    .glow-dot { box-shadow: 0 0 8px 2px rgba(115,115,115,0.3); }
+
+    #back-to-top { opacity: 0; pointer-events: none; transition: all 400ms ease; }
+    #back-to-top.visible { opacity: 1; pointer-events: auto; }
+
+    .size-btn.active { background: #171717; color: #FAFAFA; border-color: #171717; }
+
+    .parallax-slow { will-change: transform; }
+  </style>
+</head>
+<body>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed top-20 right-4 z-[100] flex flex-col gap-3"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 w-full z-50 mix-blend-difference" id="main-nav">
+    <div class="flex items-center justify-between px-6 py-5 md:px-12 md:py-7">
+      <a href="#" class="font-oswald text-xl md:text-2xl font-600 tracking-[-0.03em] text-white uppercase">Maison Noir</a>
+      <div class="hidden lg:flex items-center gap-10">
+        <a href="#collections" class="nav-link text-white text-[11px] font-semibold tracking-[0.2em] uppercase">Collections</a>
+        <a href="#shop" class="nav-link text-white text-[11px] font-semibold tracking-[0.2em] uppercase">Shop</a>
+        <a href="#editorial" class="nav-link text-white text-[11px] font-semibold tracking-[0.2em] uppercase">Editorial</a>
+        <a href="#about" class="nav-link text-white text-[11px] font-semibold tracking-[0.2em] uppercase">About</a>
+      </div>
+      <div class="flex items-center gap-5">
+        <button id="search-btn" class="text-white hover:opacity-60 transition-opacity duration-200">
+          <span class="iconify" data-icon="lucide:search" data-width="18" data-height="18"></span>
+        </button>
+        <button id="cart-btn" class="text-white hover:opacity-60 transition-opacity duration-200 relative">
+          <span class="iconify" data-icon="lucide:shopping-bag" data-width="18" data-height="18"></span>
+          <span id="cart-count" class="absolute -top-2.5 -right-2.5 bg-white text-neutral-900 text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden" style="animation: bump 300ms ease;">0</span>
+        </button>
+        <button id="menu-btn" class="lg:hidden text-white">
+          <span class="iconify" data-icon="lucide:menu" data-width="22" data-height="22"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="mobile-menu fixed inset-0 z-[60] bg-neutral-900 flex flex-col">
+    <div class="flex items-center justify-between px-6 py-5">
+      <span class="font-oswald text-xl font-600 tracking-[-0.03em] text-white uppercase">Maison Noir</span>
+      <button id="close-menu" class="text-white"><span class="iconify" data-icon="lucide:x" data-width="22"></span></button>
+    </div>
+    <div class="flex flex-col items-center justify-center flex-1 gap-6">
+      <a href="#collections" class="mobile-link font-oswald text-5xl font-300 text-white uppercase tracking-[-0.03em] hover:opacity-60 transition-opacity">Collections</a>
+      <a href="#shop" class="mobile-link font-oswald text-5xl font-300 text-white uppercase tracking-[-0.03em] hover:opacity-60 transition-opacity">Shop</a>
+      <a href="#editorial" class="mobile-link font-oswald text-5xl font-300 text-white uppercase tracking-[-0.03em] hover:opacity-60 transition-opacity">Editorial</a>
+      <a href="#about" class="mobile-link font-oswald text-5xl font-300 text-white uppercase tracking-[-0.03em] hover:opacity-60 transition-opacity">About</a>
+    </div>
+    <div class="flex items-center justify-center gap-8 pb-12">
+      <a href="#" class="text-neutral-500 hover:text-white transition-colors"><span class="iconify" data-icon="lucide:instagram" data-width="20"></span></a>
+      <a href="#" class="text-neutral-500 hover:text-white transition-colors"><span class="iconify" data-icon="lucide:twitter" data-width="20"></span></a>
+      <a href="#" class="text-neutral-500 hover:text-white transition-colors"><span class="iconify" data-icon="lucide:youtube" data-width="20"></span></a>
+    </div>
+  </div>
+
+  <!-- Search Overlay -->
+  <div id="search-overlay" class="fixed inset-0 z-[55] bg-neutral-900/97 backdrop-blur-md hidden items-center justify-center" style="display:none;">
+    <div class="w-full max-w-2xl px-6">
+      <div class="flex items-center gap-4 border-b border-neutral-700 pb-4">
+        <span class="iconify text-neutral-500" data-icon="lucide:search" data-width="24"></span>
+        <input id="search-input" type="text" placeholder="Search collections, products..." class="bg-transparent text-white text-2xl md:text-3xl font-light w-full outline-none placeholder-neutral-700" />
+        <button id="close-search" class="text-neutral-500 hover:text-white transition-colors"><span class="iconify" data-icon="lucide:x" data-width="24"></span></button>
+      </div>
+      <div class="mt-8">
+        <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-neutral-600 mb-5">Trending</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-4 py-2.5 border border-neutral-800 rounded-full text-sm text-neutral-400 hover:text-white hover:border-neutral-500 cursor-pointer transition-all duration-300">Oversized Tees</span>
+          <span class="px-4 py-2.5 border border-neutral-800 rounded-full text-sm text-neutral-400 hover:text-white hover:border-neutral-500 cursor-pointer transition-all duration-300">Tailored Blazer</span>
+          <span class="px-4 py-2.5 border border-neutral-800 rounded-full text-sm text-neutral-400 hover:text-white hover:border-neutral-500 cursor-pointer transition-all duration-300">SS25 Drop</span>
+          <span class="px-4 py-2.5 border border-neutral-800 rounded-full text-sm text-neutral-400 hover:text-white hover:border-neutral-500 cursor-pointer transition-all duration-300">Linen</span>
+          <span class="px-4 py-2.5 border border-neutral-800 rounded-full text-sm text-neutral-400 hover:text-white hover:border-neutral-500 cursor-pointer transition-all duration-300">Black</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <div id="cart-overlay" class="fixed inset-0 z-[55] bg-black/60 backdrop-blur-sm hidden" style="display:none;"></div>
+  <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md z-[56] bg-white shadow-2xl transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-neutral-100">
+      <h3 class="font-oswald text-lg font-500 uppercase tracking-[-0.02em]">Your Bag</h3>
+      <button id="close-cart" class="text-neutral-400 hover:text-neutral-900 transition-colors"><span class="iconify" data-icon="lucide:x" data-width="20"></span></button>
+    </div>
+    <div id="cart-items" class="flex-1 overflow-y-auto px-6 py-6">
+      <div id="cart-empty" class="flex flex-col items-center justify-center h-full text-center">
+        <div class="w-20 h-20 rounded-full bg-neutral-100 flex items-center justify-center mb-5">
+          <span class="iconify text-neutral-300" data-icon="lucide:shopping-bag" data-width="28"></span>
+        </div>
+        <p class="text-neutral-500 text-sm font-light">Your bag is empty</p>
+        <a href="#shop" id="cart-shop-link" class="mt-5 text-[11px] font-bold tracking-[0.15em] uppercase text-neutral-900 underline underline-offset-4 hover:text-neutral-600 transition-colors">Continue Shopping</a>
+      </div>
+      <div id="cart-list" class="hidden flex flex-col gap-6"></div>
+    </div>
+    <div id="cart-footer" class="hidden border-t border-neutral-100 px-6 py-6">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm text-neutral-500 font-light">Subtotal</span>
+        <span id="cart-total" class="text-lg font-medium tracking-tight">$0</span>
+      </div>
+      <p class="text-[11px] text-neutral-400 mb-5">Shipping & taxes calculated at checkout</p>
+      <button class="w-full bg-neutral-900 text-neutral-50 py-4 text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-neutral-800 transition-colors duration-200 flex items-center justify-center gap-2">
+        Checkout
+        <span class="iconify" data-icon="lucide:arrow-right" data-width="13"></span>
+      </button>
+      <button class="w-full mt-3 border border-neutral-200 text-neutral-600 py-3.5 text-[11px] font-bold tracking-[0.15em] uppercase hover:border-neutral-400 transition-colors duration-200">
+        View Full Bag
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1920&h=1080&fit=crop&crop=center" alt="Hero Fashion" class="w-full h-full object-cover hero-bg-pulse" />
+      <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.15) 70%, transparent 100%);"></div>
+      <div class="absolute inset-0 shimmer"></div>
+    </div>
+
+    <!-- Floating badge -->
+    <div class="absolute top-28 right-6 md:right-12 z-10 fade-up fade-up-d5 float-anim hidden md:block">
+      <div class="bg-white/10 backdrop-blur-md border border-white/10 rounded-full px-5 py-3 flex items-center gap-2.5">
+        <span class="w-2 h-2 rounded-full bg-green-400 glow-dot"></span>
+        <span class="text-white text-[10px] font-semibold tracking-[0.2em] uppercase">SS25 Live</span>
+      </div>
+    </div>
+
+    <div class="relative z-10 text-center px-6 max-w-6xl mx-auto">
+      <p class="fade-up text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase text-white/40 mb-5 md:mb-7">Summer 2025 Collection</p>
+      <h1 class="fade-up fade-up-d1 font-oswald text-[56px] md:text-[110px] lg:text-[150px] font-500 leading-[0.88] tracking-[-0.04em] uppercase text-white">
+        Redefine<br/>Silence
+      </h1>
+      <p class="fade-up fade-up-d2 mt-6 md:mt-8 text-sm md:text-lg font-light text-white/50 max-w-md mx-auto leading-relaxed">
+        Where minimalist design meets uncompromising craftsmanship.
+      </p>
+      <div class="fade-up fade-up-d3 mt-9 md:mt-11 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="#shop" class="group magnetic-btn bg-white text-neutral-900 px-9 py-4 text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-neutral-100 transition-all duration-300 flex items-center gap-2.5 shadow-lg shadow-black/20">
+          Shop Now
+          <span class="iconify group-hover:translate-x-1 transition-transform duration-300" data-icon="lucide:arrow-right" data-width="13"></span>
+        </a>
+        <a href="#editorial" class="magnetic-btn border border-white/20 text-white px-9 py-4 text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-white/10 hover:border-white/30 transition-all duration-300 backdrop-blur-sm">
+          View Lookbook
+        </a>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 fade-up fade-up-d6">
+      <div class="flex flex-col items-center gap-2 text-white/30">
+        <span class="text-[9px] tracking-[0.3em] uppercase font-semibold">Scroll</span>
+        <div class="w-px h-8 bg-gradient-to-b from-white/30 to-transparent animate-pulse"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MARQUEE ==================== -->
+  <div class="bg-neutral-900 py-3.5 overflow-hidden border-y border-neutral-800">
+    <div class="marquee-track flex items-center whitespace-nowrap" style="width: max-content;">
+      <span class="font-oswald text-[13px] font-400 tracking-[0.25em] uppercase text-neutral-600 mx-8">Free Shipping Over $200</span>
+      <span class="text-neutral-800 mx-3">✦</span>
+      <span class="font-oswald text-[13px] font-400 tracking-[0.25em] uppercase text-neutral-600 mx-8">Sustainably Crafted</span>
+      <span class="text-neutral-800 mx-3">✦</span>
+      <span class="font-oswald text-[13px] font-400 tracking-[0.25em] uppercase text-neutral-600 mx-8">30-Day Returns</span>
+      <span class="text-neutral-800 mx-3">✦</span>
+      <span class="font-oswald text-[13px] font-400 tracking-[0.25em] uppercase text-neutral-600 mx-8">Premium Japanese Fabrics</span>
+      <span class="text-neutral-800 mx-3">✦</span>
+      <span class="font-oswald text-[13px] font-400 tracking-[0.25em] uppercase text-neutral-600 mx-8">Limited Edition Drops</span>
+      <span class="text-neutral-800 mx-3">✦</span>
+      <span class="font-oswald text-[13px] font-400 tracking-[0.25em] uppercase text-neutral-600 mx-8">Free Shipping Over $200</span>
+      <span class="text-neutral-800 mx-3">✦</span>
+      <span class="font-oswald text-[13px] font-400 tracking-[0.25em] uppercase text-neutral-600 mx-8">Sustainably Crafted</span>
+      <span class="text-neutral-800 mx-3">✦</span>
+      <span class="font-oswald text-[13px] font-400 tracking-[0.25em] uppercase text-neutral-600 mx-8">30-Day Returns</span>
+      <span class="text-neutral-800 mx-3">✦</span>
+      <span class="font-oswald text-[13px] font-400 tracking-[0.25em] uppercase text-neutral-600 mx-8">Premium Japanese Fabrics</span>
+      <span class="text-neutral-800 mx-3">✦</span>
+      <span class="font-oswald text-[13px] font-400 tracking-[0.25em] uppercase text-neutral-600 mx-8">Limited Edition Drops</span>
+      <span class="text-neutral-800 mx-3">✦</span>
+    </div>
+  </div>
+
+  <!-- ==================== BENTO FEATURES ==================== -->
+  <section class="py-20 md:py-28 px-6 md:px-12">
+    <div class="max-w-[1440px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <div class="bento-card bg-white rounded-2xl p-6 md:p-8 border border-neutral-100">
+        <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center mb-5">
+          <span class="iconify text-neutral-500" data-icon="lucide:leaf" data-width="18"></span>
+        </div>
+        <h4 class="text-sm font-medium tracking-tight mb-1.5">Sustainable</h4>
+        <p class="text-xs text-neutral-500 font-light leading-relaxed">98% natural & organic fibers, zero-waste production</p>
+      </div>
+      <div class="bento-card bg-white rounded-2xl p-6 md:p-8 border border-neutral-100">
+        <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center mb-5">
+          <span class="iconify text-neutral-500" data-icon="lucide:scissors" data-width="18"></span>
+        </div>
+        <h4 class="text-sm font-medium tracking-tight mb-1.5">Handcrafted</h4>
+        <p class="text-xs text-neutral-500 font-light leading-relaxed">Made in small batches by artisan ateliers</p>
+      </div>
+      <div class="bento-card bg-white rounded-2xl p-6 md:p-8 border border-neutral-100">
+        <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center mb-5">
+          <span class="iconify text-neutral-500" data-icon="lucide:truck" data-width="18"></span>
+        </div>
+        <h4 class="text-sm font-medium tracking-tight mb-1.5">Free Shipping</h4>
+        <p class="text-xs text-neutral-500 font-light leading-relaxed">Complimentary worldwide delivery over $200</p>
+      </div>
+      <div class="bento-card bg-white rounded-2xl p-6 md:p-8 border border-neutral-100">
+        <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center mb-5">
+          <span class="iconify text-neutral-500" data-icon="lucide:refresh-cw" data-width="18"></span>
+        </div>
+        <h4 class="text-sm font-medium tracking-tight mb-1.5">Easy Returns</h4>
+        <p class="text-xs text-neutral-500 font-light leading-relaxed">30-day hassle-free return policy</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PHILOSOPHY ==================== -->
+  <section id="about" class="py-16 md:py-28 px-6 md:px-12">
+    <div class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+      <div class="relative overflow-hidden rounded-2xl aspect-[4/5] group">
+        <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&h=1000&fit=crop&crop=faces" alt="Atelier" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md rounded-xl px-5 py-3.5">
+          <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-neutral-400">Est. 2019 — Portugal</p>
+        </div>
+      </div>
+      <div>
+        <p class="text-[10px] font-bold tracking-[0.4em] uppercase text-neutral-400 mb-5">Our Philosophy</p>
+        <h2 class="font-oswald text-4xl md:text-5xl lg:text-[60px] font-500 tracking-[-0.03em] uppercase leading-[0.92] mb-7">
+          Less, but<br/>better
+        </h2>
+        <p class="text-base font-light text-neutral-500 leading-[1.7] mb-5">
+          Maison Noir was born from the belief that true luxury lies in simplicity. Every piece we create is a meditation on form, fabric, and function — stripped of excess, elevated by intention.
+        </p>
+        <p class="text-base font-light text-neutral-500 leading-[1.7] mb-10">
+          We work exclusively with small, family-run ateliers across Portugal and Japan, choosing materials that age beautifully and constructions that endure beyond seasons.
+        </p>
+        <div class="flex items-center gap-10 md:gap-14">
+          <div>
+            <p class="font-oswald text-4xl md:text-5xl font-500 tracking-[-0.03em] counter" data-target="98">0</p>
+            <p class="text-[10px] text-neutral-400 mt-1.5 tracking-[0.15em] uppercase font-semibold">Natural Fibers %</p>
+          </div>
+          <div class="w-px h-14 bg-neutral-200"></div>
+          <div>
+            <p class="font-oswald text-4xl md:text-5xl font-500 tracking-[-0.03em] counter" data-target="12">0</p>
+            <p class="text-[10px] text-neutral-400 mt-1.5 tracking-[0.15em] uppercase font-semibold">Partner Ateliers</p>
+          </div>
+          <div class="w-px h-14 bg-neutral-200"></div>
+          <div>
+            <p class="font-oswald text-4xl md:text-5xl font-500 tracking-[-0.03em] counter" data-target="0">0</p>
+            <p class="text-[10px] text-neutral-400 mt-1.5 tracking-[0.15em] uppercase font-semibold">Waste Policy</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VISUAL BREAK ==================== -->
+  <section class="relative h-[300px] md:h-[500px] overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&h=600&fit=crop&crop=center" alt="Fashion" class="w-full h-full object-cover" style="filter: grayscale(100%); opacity: 0.85;" />
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="text-center">
+        <p class="font-oswald text-3xl md:text-6xl lg:text-8xl font-300 tracking-[-0.04em] uppercase text-white" style="text-shadow: 0 4px 30px rgba(0,0,0,0.6);">
+          Quietly Bold
+        </p>
+        <p class="mt-3 text-[10px] md:text-xs text-white/40 tracking-[0.3em] uppercase font-semibold">Not a whisper — a statement</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COLLECTIONS ==================== -->
+  <section id="collections" class="py-20 md:py-32 px-6 md:px-12">
+    <div class="max-w-[1440px] mx-auto">
+      <div class="flex items-end justify-between mb-10 md:mb-16">
+        <div>
+          <p class="text-[10px] font-bold tracking-[0.4em] uppercase text-neutral-400 mb-4">Explore</p>
+          <h2 class="font-oswald text-3xl md:text-4xl font-500 tracking-[-0.03em] uppercase">Collections</h2>
+        </div>
+        <a href="#" class="group hidden md:flex items-center gap-2 text-[11px] font-bold tracking-[0.15em] uppercase text-neutral-900 hover:text-neutral-500 transition-colors duration-200">
+          View All
+          <span class="iconify group-hover:translate-x-1 transition-transform duration-300" data-icon="lucide:arrow-right" data-width="13"></span>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+        <a href="#" class="collection-card group relative overflow-hidden rounded-2xl aspect-[3/4]">
+          <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=800&fit=crop&crop=center" alt="Essentials" class="collection-img w-full h-full object-cover" />
+          <div class="collection-overlay absolute inset-0 bg-black/50 flex flex-col items-center justify-end pb-10 text-center px-6">
+            <div class="collection-line h-px bg-white mb-5"></div>
+            <p class="text-[9px] font-bold tracking-[0.3em] uppercase text-white/50 mb-2">12 Pieces</p>
+            <h3 class="font-oswald text-2xl md:text-3xl font-400 tracking-[-0.02em] uppercase text-white">Essentials</h3>
+            <div class="mt-4 flex items-center gap-2 text-white/50 group-hover:text-white transition-colors">
+              <span class="text-[10px] font-bold tracking-[0.15em] uppercase">Explore</span>
+              <span class="iconify group-hover:translate-x-1 transition-transform duration-300" data-icon="lucide:arrow-right" data-width="11"></span>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="collection-card group relative overflow-hidden rounded-2xl aspect-[3/4]">
+          <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=800&fit=crop&crop=center" alt="Tailored" class="collection-img w-full h-full object-cover" />
+          <div class="collection-overlay absolute inset-0 bg-black/50 flex flex-col items-center justify-end pb-10 text-center px-6">
+            <div class="collection-line h-px bg-white mb-5"></div>
+            <p class="text-[9px] font-bold tracking-[0.3em] uppercase text-white/50 mb-2">8 Pieces</p>
+            <h3 class="font-oswald text-2xl md:text-3xl font-400 tracking-[-0.02em] uppercase text-white">Tailored</h3>
+            <div class="mt-4 flex items-center gap-2 text-white/50 group-hover:text-white transition-colors">
+              <span class="text-[10px] font-bold tracking-[0.15em] uppercase">Explore</span>
+              <span class="iconify group-hover:translate-x-1 transition-transform duration-300" data-icon="lucide:arrow-right" data-width="11"></span>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="collection-card group relative overflow-hidden rounded-2xl aspect-[3/4]">
+          <img src="https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=600&h=800&fit=crop&crop=center" alt="Outerwear" class="collection-img w-full h-full object-cover" />
+          <div class="collection-overlay absolute inset-0 bg-black/50 flex flex-col items-center justify-end pb-10 text-center px-6">
+            <div class="collection-line h-px bg-white mb-5"></div>
+            <p class="text-[9px] font-bold tracking-[0.3em] uppercase text-white/50 mb-2">6 Pieces</p>
+            <h3 class="font-oswald text-2xl md:text-3xl font-400 tracking-[-0.02em] uppercase text-white">Outerwear</h3>
+            <div class="mt-4 flex items-center gap-2 text-white/50 group-hover:text-white transition-colors">
+              <span class="text-[10px] font-bold tracking-[0.15em] uppercase">Explore</span>
+              <span class="iconify group-hover:translate-x-1 transition-transform duration-300" data-icon="lucide:arrow-right" data-width="11"></span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SHOP ==================== -->
+  <section id="shop" class="py-20 md:py-32 px-6 md:px-12 bg-white">
+    <div class="max-w-[1440px] mx-auto">
+      <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 md:mb-16 gap-5">
+        <div>
+          <p class="text-[10px] font-bold tracking-[0.4em] uppercase text-neutral-400 mb-4">Curated</p>
+          <h2 class="font-oswald text-3xl md:text-4xl font-500 tracking-[-0.03em] uppercase">New Arrivals</h2>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button class="filter-btn active px-5 py-2.5 text-[10px] font-bold tracking-[0.15em] uppercase bg-neutral-900 text-neutral-50 rounded-full transition-all duration-300" data-filter="all">All</button>
+          <button class="filter-btn px-5 py-2.5 text-[10px] font-bold tracking-[0.15em] uppercase border border-neutral-200 text-neutral-400 hover:border-neutral-900 hover:text-neutral-900 rounded-full transition-all duration-300" data-filter="tops">Tops</button>
+          <button class="filter-btn px-5 py-2.5 text-[10px] font-bold tracking-[0.15em] uppercase border border-neutral-200 text-neutral-400 hover:border-neutral-900 hover:text-neutral-900 rounded-full transition-all duration-300" data-filter="bottoms">Bottoms</button>
+          <button class="filter-btn px-5 py-2.5 text-[10px] font-bold tracking-[0.15em] uppercase border border-neutral-200 text-neutral-400 hover:border-neutral-900 hover:text-neutral-900 rounded-full transition-all duration-300" data-filter="layers">Layers</button>
+        </div>
+      </div>
+
+      <div id="products-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+        <!-- Product 1 -->
+        <div class="product-card group" data-category="tops">
+          <div class="relative overflow-hidden rounded-xl aspect-[3/4] bg-neutral-100 mb-3.5">
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=667&fit=crop&crop=top" alt="Oversized Tee" class="product-img absolute inset-0 w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&h=667&fit=crop&crop=top" alt="Oversized Tee Back" class="second-img absolute inset-0 w-full h-full object-cover" />
+            <div class="product-actions absolute bottom-3 left-3 right-3 flex gap-2">
+              <button onclick="addToCart('Oversized Tee', 85, 'noir-tee1')" class="flex-1 bg-neutral-900/95 backdrop-blur-sm text-neutral-50 py-3 text-[10px] font-bold tracking-[0.12em] uppercase hover:bg-neutral-800 transition-colors duration-200 rounded-lg">Add to Bag</button>
+              <button class="wishlist-btn bg-white/95 backdrop-blur-sm text-neutral-900 p-3 hover:bg-neutral-100 transition-all duration-200 rounded-lg">
+                <span class="iconify" data-icon="lucide:heart" data-width="13"></span>
+              </button>
+            </div>
+            <span class="product-tag absolute top-3 left-3 bg-neutral-50/90 backdrop-blur-sm text-neutral-900 text-[9px] font-bold tracking-[0.15em] uppercase px-3 py-1.5 rounded-full">New</span>
+            <div class="color-dots absolute top-3 right-3 flex flex-col gap-1.5">
+              <span class="w-3.5 h-3.5 rounded-full bg-neutral-900 border-2 border-white shadow-sm cursor-pointer"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-neutral-400 border-2 border-white shadow-sm cursor-pointer"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-stone-300 border-2 border-white shadow-sm cursor-pointer"></span>
+            </div>
+          </div>
+          <h3 class="text-[13px] font-medium tracking-tight">Oversized Tee</h3>
+          <p class="text-[13px] text-neutral-400 mt-0.5">$85</p>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card group" data-category="bottoms">
+          <div class="relative overflow-hidden rounded-xl aspect-[3/4] bg-neutral-100 mb-3.5">
+            <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500&h=667&fit=crop&crop=top" alt="Wide Leg Trouser" class="product-img absolute inset-0 w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500&h=667&fit=crop&crop=top" alt="Wide Leg Trouser Alt" class="second-img absolute inset-0 w-full h-full object-cover" />
+            <div class="product-actions absolute bottom-3 left-3 right-3 flex gap-2">
+              <button onclick="addToCart('Wide Leg Trouser', 195, 'noir-pant1')" class="flex-1 bg-neutral-900/95 backdrop-blur-sm text-neutral-50 py-3 text-[10px] font-bold tracking-[0.12em] uppercase hover:bg-neutral-800 transition-colors duration-200 rounded-lg">Add to Bag</button>
+              <button class="wishlist-btn bg-white/95 backdrop-blur-sm text-neutral-900 p-3 hover:bg-neutral-100 transition-all duration-200 rounded-lg">
+                <span class="iconify" data-icon="lucide:heart" data-width="13"></span>
+              </button>
+            </div>
+            <div class="color-dots absolute top-3 right-3 flex flex-col gap-1.5">
+              <span class="w-3.5 h-3.5 rounded-full bg-neutral-900 border-2 border-white shadow-sm cursor-pointer"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-stone-600 border-2 border-white shadow-sm cursor-pointer"></span>
+            </div>
+          </div>
+          <h3 class="text-[13px] font-medium tracking-tight">Wide Leg Trouser</h3>
+          <p class="text-[13px] text-neutral-400 mt-0.5">$195</p>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card group" data-category="layers">
+          <div class="relative overflow-hidden rounded-xl aspect-[3/4] bg-neutral-100 mb-3.5">
+            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&h=667&fit=crop&crop=top" alt="Deconstructed Blazer" class="product-img absolute inset-0 w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=500&h=667&fit=crop&crop=top" alt="Blazer Alt" class="second-img absolute inset-0 w-full h-full object-cover" />
+            <div class="product-actions absolute bottom-3 left-3 right-3 flex gap-2">
+              <button onclick="addToCart('Deconstructed Blazer', 420, 'noir-blazer1')" class="flex-1 bg-neutral-900/95 backdrop-blur-sm text-neutral-50 py-3 text-[10px] font-bold tracking-[0.12em] uppercase hover:bg-neutral-800 transition-colors duration-200 rounded-lg">Add to Bag</button>
+              <button class="wishlist-btn bg-white/95 backdrop-blur-sm text-neutral-900 p-3 hover:bg-neutral-100 transition-all duration-200 rounded-lg">
+                <span class="iconify" data-icon="lucide:heart" data-width="13"></span>
+              </button>
+            </div>
+            <span class="product-tag absolute top-3 left-3 bg-neutral-50/90 backdrop-blur-sm text-neutral-900 text-[9px] font-bold tracking-[0.15em] uppercase px-3 py-1.5 rounded-full">Bestseller</span>
+            <div class="color-dots absolute top-3 right-3 flex flex-col gap-1.5">
+              <span class="w-3.5 h-3.5 rounded-full bg-neutral-900 border-2 border-white shadow-sm cursor-pointer"></span>
+            </div>
+          </div>
+          <h3 class="text-[13px] font-medium tracking-tight">Deconstructed Blazer</h3>
+          <p class="text-[13px] text-neutral-400 mt-0.5">$420</p>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card group" data-category="tops">
+          <div class="relative overflow-hidden rounded-xl aspect-[3/4] bg-neutral-100 mb-3.5">
+            <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&h=667&fit=crop&crop=top" alt="Linen Shirt" class="product-img absolute inset-0 w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?w=500&h=667&fit=crop&crop=top" alt="Linen Shirt Alt" class="second-img absolute inset-0 w-full h-full object-cover" />
+            <div class="product-actions absolute bottom-3 left-3 right-3 flex gap-2">
+              <button onclick="addToCart('Linen Shirt', 155, 'noir-shirt1')" class="flex-1 bg-neutral-900/95 backdrop-blur-sm text-neutral-50 py-3 text-[10px] font-bold tracking-[0.12em] uppercase hover:bg-neutral-800 transition-colors duration-200 rounded-lg">Add to Bag</button>
+              <button class="wishlist-btn bg-white/95 backdrop-blur-sm text-neutral-900 p-3 hover:bg-neutral-100 transition-all duration-200 rounded-lg">
+                <span class="iconify" data-icon="lucide:heart" data-width="13"></span>
+              </button>
+            </div>
+            <div class="color-dots absolute top-3 right-3 flex flex-col gap-1.5">
+              <span class="w-3.5 h-3.5 rounded-full bg-white border-2 border-neutral-200 shadow-sm cursor-pointer"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-sky-100 border-2 border-white shadow-sm cursor-pointer"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-neutral-900 border-2 border-white shadow-sm cursor-pointer"></span>
+            </div>
+          </div>
+          <h3 class="text-[13px] font-medium tracking-tight">Linen Shirt</h3>
+          <p class="text-[13px] text-neutral-400 mt-0.5">$155</p>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="product-card group" data-category="layers">
+          <div class="relative overflow-hidden rounded-xl aspect-[3/4] bg-neutral-100 mb-3.5">
+            <img src="https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=500&h=667&fit=crop&crop=top" alt="Canvas Trench" class="product-img absolute inset-0 w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=500&h=667&fit=crop&crop=top" alt="Trench Alt" class="second-img absolute inset-0 w-full h-full object-cover" />
+            <div class="product-actions absolute bottom-3 left-3 right-3 flex gap-2">
+              <button onclick="addToCart('Canvas Trench', 580, 'noir-coat1')" class="flex-1 bg-neutral-900/95 backdrop-blur-sm text-neutral-50 py-3 text-[10px] font-bold tracking-[0.12em] uppercase hover:bg-neutral-800 transition-colors duration-200 rounded-lg">Add to Bag</button>
+              <button class="wishlist-btn bg-white/95 backdrop-blur-sm text-neutral-900 p-3 hover:bg-neutral-100 transition-all duration-200 rounded-lg">
+                <span class="iconify" data-icon="lucide:heart" data-width="13"></span>
+              </button>
+            </div>
+            <span class="product-tag absolute top-3 left-3 bg-neutral-50/90 backdrop-blur-sm text-neutral-900 text-[9px] font-bold tracking-[0.15em] uppercase px-3 py-1.5 rounded-full">Limited</span>
+          </div>
+          <h3 class="text-[13px] font-medium tracking-tight">Canvas Trench</h3>
+          <p class="text-[13px] text-neutral-400 mt-0.5">$580</p>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="product-card group" data-category="bottoms">
+          <div class="relative overflow-hidden rounded-xl aspect-[3/4] bg-neutral-100 mb-3.5">
+            <img src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=500&h=667&fit=crop&crop=top" alt="Drawstring Short" class="product-img absolute inset-0 w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1565084888279-aca607ecce0c?w=500&h=667&fit=crop&crop=top" alt="Short Alt" class="second-img absolute inset-0 w-full h-full object-cover" />
+            <div class="product-actions absolute bottom-3 left-3 right-3 flex gap-2">
+              <button onclick="addToCart('Drawstring Short', 110, 'noir-short1')" class="flex-1 bg-neutral-900/95 backdrop-blur-sm text-neutral-50 py-3 text-[10px] font-bold tracking-[0.12em] uppercase hover:bg-neutral-800 transition-colors duration-200 rounded-lg">Add to Bag</button>
+              <button class="wishlist-btn bg-white/95 backdrop-blur-sm text-neutral-900 p-3 hover:bg-neutral-100 transition-all duration-200 rounded-lg">
+                <span class="iconify" data-icon="lucide:heart" data-width="13"></span>
+              </button>
+            </div>
+            <span class="product-tag absolute top-3 left-3 bg-neutral-50/90 backdrop-blur-sm text-neutral-900 text-[9px] font-bold tracking-[0.15em] uppercase px-3 py-1.5 rounded-full">New</span>
+          </div>
+          <h3 class="text-[13px] font-medium tracking-tight">Drawstring Short</h3>
+          <p class="text-[13px] text-neutral-400 mt-0.5">$110</p>
+        </div>
+
+        <!-- Product 7 -->
+        <div class="product-card group" data-category="tops">
+          <div class="relative overflow-hidden rounded-xl aspect-[3/4] bg-neutral-100 mb-3.5">
+            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&h=667&fit=crop&crop=top" alt="Ribbed Knit" class="product-img absolute inset-0 w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1434389677669-e08b4cda3a20?w=500&h=667&fit=crop&crop=top" alt="Knit Alt" class="second-img absolute inset-0 w-full h-full object-cover" />
+            <div class="product-actions absolute bottom-3 left-3 right-3 flex gap-2">
+              <button onclick="addToCart('Ribbed Knit', 165, 'noir-knit1')" class="flex-1 bg-neutral-900/95 backdrop-blur-sm text-neutral-50 py-3 text-[10px] font-bold tracking-[0.12em] uppercase hover:bg-neutral-800 transition-colors duration-200 rounded-lg">Add to Bag</button>
+              <button class="wishlist-btn bg-white/95 backdrop-blur-sm text-neutral-900 p-3 hover:bg-neutral-100 transition-all duration-200 rounded-lg">
+                <span class="iconify" data-icon="lucide:heart" data-width="13"></span>
+              </button>
+            </div>
+            <div class="color-dots absolute top-3 right-3 flex flex-col gap-1.5">
+              <span class="w-3.5 h-3.5 rounded-full bg-neutral-900 border-2 border-white shadow-sm cursor-pointer"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-amber-800 border-2 border-white shadow-sm cursor-pointer"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-neutral-300 border-2 border-white shadow-sm cursor-pointer"></span>
+            </div>
+          </div>
+          <h3 class="text-[13px] font-medium tracking-tight">Ribbed Knit</h3>
+          <p class="text-[13px] text-neutral-400 mt-0.5">$165</p>
+        </div>
+
+        <!-- Product 8 -->
+        <div class="product-card group" data-category="layers">
+          <div class="relative overflow-hidden rounded-xl aspect-[3/4] bg-neutral-100 mb-3.5">
+            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&h=667&fit=crop&crop=top" alt="Quilted Vest" class="product-img absolute inset-0 w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1544923246-77307dd270b5?w=500&h=667&fit=crop&crop=top" alt="Vest Alt" class="second-img absolute inset-0 w-full h-full object-cover" />
+            <div class="product-actions absolute bottom-3 left-3 right-3 flex gap-2">
+              <button onclick="addToCart('Quilted Vest', 290, 'noir-vest1')" class="flex-1 bg-neutral-900/95 backdrop-blur-sm text-neutral-50 py-3 text-[10px] font-bold tracking-[0.12em] uppercase hover:bg-neutral-800 transition-colors duration-200 rounded-lg">Add to Bag</button>
+              <button class="wishlist-btn bg-white/95 backdrop-blur-sm text-neutral-900 p-3 hover:bg-neutral-100 transition-all duration-200 rounded-lg">
+                <span class="iconify" data-icon="lucide:heart" data-width="13"></span>
+              </button>
+            </div>
+            <div class="color-dots absolute top-3 right-3 flex flex-col gap-1.5">
+              <span class="w-3.5 h-3.5 rounded-full bg-neutral-900 border-2 border-white shadow-sm cursor-pointer"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-green-900 border-2 border-white shadow-sm cursor-pointer"></span>
+            </div>
+          </div>
+          <h3 class="text-[13px] font-medium tracking-tight">Quilted Vest</h3>
+          <p class="text-[13px] text-neutral-400 mt-0.5">$290</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EDITORIAL ==================== -->
+  <section id="editorial" class="py-20 md:py-32 px-6 md:px-12">
+    <div class="max-w-[1440px] mx-auto">
+      <div class="text-center mb-10 md:mb-16">
+        <p class="text-[10px] font-bold tracking-[0.4em] uppercase text-neutral-400 mb-4">SS25</p>
+        <h2 class="font-oswald text-3xl md:text-4xl font-500 tracking-[-0.03em] uppercase">The Editorial</h2>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5">
+        <div class="lg:col-span-8 editorial-card relative overflow-hidden rounded-2xl aspect-[16/10]">
+          <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1200&h=750&fit=crop&crop=center" alt="Editorial 1" class="w-full h-full object-cover" />
+          <div class="ed-overlay absolute inset-0 bg-black/30 flex items-end p-8">
+            <div>
+              <p class="text-[9px] font-bold tracking-[0.3em] uppercase text-white/50 mb-2">Look 01</p>
+              <p class="text-white font-light text-lg">Urban Minimalism in Monochrome</p>
+            </div>
+          </div>
+        </div>
+        <div class="lg:col-span-4 editorial-card relative overflow-hidden rounded-2xl aspect-[4/5] lg:aspect-auto">
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=750&fit=crop&crop=faces" alt="Editorial 2" class="w-full h-full object-cover" />
+          <div class="ed-overlay absolute inset-0 bg-black/30 flex items-end p-6">
+            <div>
+              <p class="text-[9px] font-bold tracking-[0.3em] uppercase text-white/50 mb-2">Look 02</p>
+              <p class="text-white font-light">Draped Elegance</p>
+            </div>
+          </div>
+        </div>
+        <div class="lg:col-span-4 editorial-card relative overflow-hidden rounded-2xl aspect-[4/5] lg:aspect-auto">
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=750&fit=crop&crop=center" alt="Editorial 3" class="w-full h-full object-cover" />
+          <div class="ed-overlay absolute inset-0 bg-black/30 flex items-end p-6">
+            <div>
+              <p class="text-[9px] font-bold tracking-[0.3em] uppercase text-white/50 mb-2">Look 03</p>
+              <p class="text-white font-light">Shadow Play</p>
+            </div>
+          </div>
+        </div>
+        <div class="lg:col-span-8 editorial-card relative overflow-hidden rounded-2xl aspect-[16/10]">
+          <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&h=750&fit=crop&crop=center" alt="Editorial 4" class="w-full h-full object-cover" />
+          <div class="ed-overlay absolute inset-0 bg-black/30 flex items-end p-8">
+            <div>
+              <p class="text-[9px] font-bold tracking-[0.3em] uppercase text-white/50 mb-2">Look 04</p>
+              <p class="text-white font-light text-lg">Texture & Movement</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTIMONIALS ==================== -->
+  <section class="py-20 md:py-32 px-6 md:px-12 bg-neutral-900">
+    <div class="max-w-[1440px] mx-auto">
+      <div class="text-center mb-12 md:mb-16">
+        <p class="text-[10px] font-bold tracking-[0.4em] uppercase text-neutral-600 mb-4">Voices</p>
+        <h2 class="font-oswald text-3xl md:text-4xl font-500 tracking-[-0.03em] uppercase text-white">What They Say</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="border border-neutral-800 rounded-2xl p-8 md:p-10 hover:border-neutral-700 transition-colors duration-500">
+          <div class="flex items-center gap-1 mb-6">
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+          </div>
+          <p class="text-[15px] font-light text-neutral-400 leading-[1.7] mb-8">
+            "The quality is unlike anything I've experienced at this price point. The blazer has become my daily uniform — it just gets better with wear."
+          </p>
+          <div class="flex items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=faces" alt="Marcus" class="w-10 h-10 rounded-full object-cover" />
+            <div>
+              <p class="text-sm font-medium text-white">Marcus R.</p>
+              <p class="text-[11px] text-neutral-600">Berlin, Germany</p>
+            </div>
+          </div>
+        </div>
+        <div class="border border-neutral-800 rounded-2xl p-8 md:p-10 hover:border-neutral-700 transition-colors duration-500">
+          <div class="flex items-center gap-1 mb-6">
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+          </div>
+          <p class="text-[15px] font-light text-neutral-400 leading-[1.7] mb-8">
+            "Finally, a brand that understands minimalism isn't about removing personality — it's about refining it. Every piece tells a story without shouting."
+          </p>
+          <div class="flex items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=faces" alt="Aiko" class="w-10 h-10 rounded-full object-cover" />
+            <div>
+              <p class="text-sm font-medium text-white">Aiko K.</p>
+              <p class="text-[11px] text-neutral-600">Tokyo, Japan</p>
+            </div>
+          </div>
+        </div>
+        <div class="border border-neutral-800 rounded-2xl p-8 md:p-10 hover:border-neutral-700 transition-colors duration-500">
+          <div class="flex items-center gap-1 mb-6">
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+            <span class="iconify text-amber-500" data-icon="lucide:star" data-width="13"></span>
+          </div>
+          <p class="text-[15px] font-light text-neutral-400 leading-[1.7] mb-8">
+            "I've reduced my wardrobe to 15 pieces, half of them Maison Noir. The linen shirt and wide leg trouser combo is all I need for summer."
+          </p>
+          <div class="flex items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=faces" alt="Sophie" class="w-10 h-10 rounded-full object-cover" />
+            <div>
+              <p class="text-sm font-medium text-white">Sophie L.</p>
+              <p class="text-[11px] text-neutral-600">Paris, France</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== NEWSLETTER ==================== -->
+  <section class="py-24 md:py-36 px-6 md:px-12 relative overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=1920&h=800&fit=crop&crop=center" alt="bg" class="w-full h-full object-cover" style="filter: grayscale(100%); opacity: 0.06;" />
+    </div>
+    <div class="relative max-w-3xl mx-auto text-center">
+      <div class="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center mx-auto mb-8">
+        <span class="iconify text-neutral-400" data-icon="lucide:mail" data-width="24"></span>
+      </div>
+      <p class="text-[10px] font-bold tracking-[0.4em] uppercase text-neutral-400 mb-5">Stay Connected</p>
+      <h2 class="font-oswald text-4xl md:text-5xl lg:text-6xl font-500 tracking-[-0.03em] uppercase leading-[0.92] mb-6">
+        Join the<br/>Inner Circle
+      </h2>
+      <p class="text-base font-light text-neutral-400 leading-relaxed mb-10 max-w-lg mx-auto">
+        Early access to new drops, behind-the-scenes stories, and exclusive offers. No spam — only substance.
+      </p>
+      <form id="newsletter-form" class="flex flex-col sm:flex-row items-stretch gap-3 max-w-lg mx-auto">
+        <input type="email" id="newsletter-email" placeholder="Your email address" required class="flex-1 px-6 py-4 border border-neutral-200 rounded-xl text-sm bg-white outline-none focus:border-neutral-900 transition-colors duration-300 placeholder-neutral-400" />
+        <button type="submit" class="bg-neutral-900 text-neutral-50 px-8 py-4 text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-neutral-800 transition-colors duration-200 whitespace-nowrap rounded-xl flex items-center justify-center gap-2">
+          Subscribe
+          <span class="iconify" data-icon="lucide:arrow-right" data-width="12"></span>
+        </button>
+      </form>
+      <p id="newsletter-success" class="hidden mt-5 text-sm text-neutral-600">✓ Welcome to the inner circle. Check your inbox.</p>
+      <p class="mt-4 text-[11px] text-neutral-400">By subscribing, you agree to our <a href="#" class="underline underline-offset-2 hover:text-neutral-600 transition-colors">Privacy Policy</a></p>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-neutral-900 border-t border-neutral-800">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 py-16 md:py-20">
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 md:gap-12">
+        <div class="col-span-2 md:col-span-4 lg:col-span-1 mb-4 lg:mb-0">
+          <a href="#" class="font-oswald text-xl font-600 tracking-[-0.03em] text-white uppercase">Maison Noir</a>
+          <p class="mt-4 text-[13px] font-light text-neutral-600 leading-relaxed max-w-xs">
+            Contemporary clothing for those who value substance over noise.
+          </p>
+          <div class="flex items-center gap-5 mt-7">
+            <a href="#" class="w-9 h-9 rounded-full border border-neutral-800 flex items-center justify-center text-neutral-500 hover:text-white hover:border-neutral-600 transition-all duration-300"><span class="iconify" data-icon="lucide:instagram" data-width="15"></span></a>
+            <a href="#" class="w-9 h-9 rounded-full border border-neutral-800 flex items-center justify-center text-neutral-500 hover:text-white hover:border-neutral-600 transition-all duration-300"><span class="iconify" data-icon="lucide:twitter" data-width="15"></span></a>
+            <a href="#" class="w-9 h-9 rounded-full border border-neutral-800 flex items-center justify-center text-neutral-500 hover:text-white hover:border-neutral-600 transition-all duration-300"><span class="iconify" data-icon="lucide:youtube" data-width="15"></span></a>
+            <a href="#" class="w-9 h-9 rounded-full border border-neutral-800 flex items-center justify-center text-neutral-500 hover:text-white hover:border-neutral-600 transition-all duration-300"><span class="iconify" data-icon="lucide:linkedin" data-width="15"></span></a>
+          </div>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-neutral-500 mb-5">Shop</p>
+          <ul class="flex flex-col gap-3">
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">New Arrivals</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Essentials</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Tailored</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Outerwear</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Accessories</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-neutral-500 mb-5">Company</p>
+          <ul class="flex flex-col gap-3">
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Our Story</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Sustainability</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Ateliers</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Careers</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-neutral-500 mb-5">Support</p>
+          <ul class="flex flex-col gap-3">
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Size Guide</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Shipping</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Returns</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Care</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-neutral-500 mb-5">Legal</p>
+          <ul class="flex flex-col gap-3">
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Privacy</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Terms</a></li>
+            <li><a href="#" class="text-[13px] text-neutral-600 hover:text-white transition-colors duration-200">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-neutral-800 mt-14 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-[11px] text-neutral-700">&copy; 2025 Maison Noir. All rights reserved.</p>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2 text-neutral-600">
+            <span class="iconify" data-icon="lucide:lock" data-width="12"></span>
+            <span class="text-[11px] tracking-wide">Secure Checkout</span>
+          </div>
+          <div class="flex items-center gap-2 px-3 py-1.5 bg-neutral-800 rounded-md">
+            <span class="iconify text-neutral-500" data-icon="lucide:credit-card" data-width="16"></span>
+            <span class="iconify text-neutral-500" data-icon="lucide:smartphone" data-width="14"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="back-to-top" class="fixed bottom-6 right-6 z-40 w-11 h-11 bg-neutral-900 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-neutral-800 transition-all duration-300">
+    <span class="iconify" data-icon="lucide:arrow-up" data-width="16"></span>
+  </button>
+
+  <script>
+    // ====== CART SYSTEM ======
+    let cart = [];
+
+    function updateCartUI() {
+      const countEl = document.getElementById('cart-count');
+      const listEl = document.getElementById('cart-list');
+      const emptyEl = document.getElementById('cart-empty');
+      const footerEl = document.getElementById('cart-footer');
+      const totalEl = document.getElementById('cart-total');
+      const totalItems = cart.reduce((s, i) => s + i.qty, 0);
+      const totalPrice = cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+      if (totalItems > 0) {
+        countEl.classList.remove('hidden');
+        countEl.textContent = totalItems;
+        countEl.style.animation = 'none';
+        countEl.offsetHeight;
+        countEl.style.animation = 'bump 300ms ease';
+        emptyEl.classList.add('hidden');
+        listEl.classList.remove('hidden');
+        footerEl.classList.remove('hidden');
+        listEl.innerHTML = cart.map((item, i) => `
+          <div class="flex gap-4 items-start">
+            <div class="w-20 h-24 bg-neutral-100 rounded-lg flex-shrink-0 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=160&h=192&fit=crop" class="w-full h-full object-cover" alt="${item.name}" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <h4 class="text-[13px] font-medium tracking-tight truncate">${item.name}</h4>
+              <p class="text-[13px] text-neutral-400 mt-0.5">$${item.price}</p>
+              <div class="flex items-center gap-3 mt-3">
+                <button onclick="changeQty(${i},-1)" class="w-7 h-7 border border-neutral-200 rounded-lg flex items-center justify-center text-xs hover:border-neutral-400 transition-colors">−</button>
+                <span class="text-[13px] font-medium w-4 text-center">${item.qty}</span>
+                <button onclick="changeQty(${i},1)" class="w-7 h-7 border border-neutral-200 rounded-lg flex items-center justify-center text-xs hover:border-neutral-400 transition-colors">+</button>
+              </div>
+            </div>
+            <button onclick="removeFromCart(${i})" class="text-neutral-300 hover:text-neutral-900 transition-colors mt-1">
+              <span class="iconify" data-icon="lucide:x" data-width="15"></span>
+            </button>
+          </div>
+        `).join('');
+        totalEl.textContent = `$${totalPrice}`;
+      } else {
+        countEl.classList.add('hidden');
+        emptyEl.classList.remove('hidden');
+        listEl.classList.add('hidden');
+        footerEl.classList.add('hidden');
+      }
+    }
+
+    function addToCart(name, price, img) {
+      const existing = cart.find(i => i.name === name);
+      if (existing) existing.qty++; else cart.push({ name, price, img, qty: 1 });
+      updateCartUI();
+      showToast(`${name} added to bag`);
+    }
+
+    function changeQty(i, d) { cart[i].qty += d; if (cart[i].qty <= 0) cart.splice(i, 1); updateCartUI(); }
+    function removeFromCart(i) { const n = cart[i].name; cart.splice(i, 1); updateCartUI(); showToast(`${n} removed`); }
+
+    // ====== TOAST ======
+    function showToast(msg) {
+      const c = document.getElementById('toast-container');
+      const t = document.createElement('div');
+      t.className = 'toast-in bg-neutral-900 text-white px-5 py-3.5 flex items-center gap-3 shadow-xl rounded-xl';
+      t.innerHTML = `<span class="iconify text-green-400" data-icon="lucide:check-circle" data-width="16"></span><span class="text-[13px] font-light">${msg}</span>`;
+      c.appendChild(t);
+      setTimeout(() => { t.classList.remove('toast-in'); t.classList.add('toast-out'); setTimeout(() => t.remove(), 400); }, 2500);
+    }
+
+    // ====== CART DRAWER ======
+    const cartBtn = document.getElementById('cart-btn');
+    const cartDrawer = document.getElementById('cart-drawer');
+    const cartOverlay = document.getElementById('cart-overlay');
+    const closeCartBtn = document.getElementById('close-cart');
+    const cartShopLink = document.getElementById('cart-shop-link');
+
+    function openCart() { cartOverlay.style.display = 'block'; setTimeout(() => cartDrawer.style.transform = 'translateX(0)', 10); }
+    function closeCartFn() { cartDrawer.style.transform = 'translateX(100%)'; setTimeout(() => cartOverlay.style.display = 'none', 500); }
+    cartBtn.addEventListener('click', openCart);
+    closeCartBtn.addEventListener('click', closeCartFn);
+    cartOverlay.addEventListener('click', closeCartFn);
+    cartShopLink.addEventListener('click', closeCartFn);
+
+    // ====== MOBILE MENU ======
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeMenuBtn = document.getElementById('close-menu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+    closeMenuBtn.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+    // ====== SEARCH ======
+    const searchBtn = document.getElementById('search-btn');
+    const searchOverlay = document.getElementById('search-overlay');
+    const closeSearch = document.getElementById('close-search');
+    const searchInput = document.getElementById('search-input');
+    searchBtn.addEventListener('click', () => { searchOverlay.style.display = 'flex'; setTimeout(() => searchInput.focus(), 100); });
+    closeSearch.addEventListener('click', () => { searchOverlay.style.display = 'none'; });
+
+    // ====== FILTER ======
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const productCards = document.querySelectorAll('.product-card');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => { b.classList.remove('bg-neutral-900','text-neutral-50','active'); b.classList.add('border','border-neutral-200','text-neutral-400'); });
+        btn.classList.add('bg-neutral-900','text-neutral-50','active'); btn.classList.remove('border','border-neutral-200','text-neutral-400');
+        const f = btn.dataset.filter;
+        productCards.forEach(c => {
+          if (f === 'all' || c.dataset.category === f) {
+            c.style.display = ''; c.style.opacity = '0'; c.style.transform = 'translateY(12px)';
+            requestAnimationFrame(() => { c.style.transition = 'opacity 0.6s ease, transform 0.6s ease'; c.style.opacity = '1'; c.style.transform = 'translateY(0)'; });
+          } else { c.style.display = 'none'; }
+        });
+      });
+    });
+
+    // ====== NEWSLETTER ======
+    document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('newsletter-form').classList.add('hidden');
+      document.getElementById('newsletter-success').classList.remove('hidden');
+      showToast('Successfully subscribed');
+    });
+
+    // ====== WISHLIST TOGGLE ======
+    document.querySelectorAll('.wishlist-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const isActive = this.classList.contains('bg-neutral-900');
+        if (isActive) {
+          this.classList.remove('bg-neutral-900','text-white'); this.classList.add('bg-white/95','text-neutral-900');
+        } else {
+          this.classList.add('bg-neutral-900','text-white'); this.classList.remove('bg-white/95','text-neutral-900');
+          showToast('Added to wishlist');
+        }
+      });
+    });
+
+    // ====== SCROLL ANIMATIONS ======
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('section > div').forEach(el => {
+      el.style.opacity = '0'; el.style.transform = 'translateY(24px)'; el.style.transition = 'opacity 0.9s ease-out, transform 0.9s ease-out';
+      observer.observe(el);
+    });
+
+    // ====== COUNTER ANIMATION ======
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target; const target = parseInt(el.dataset.target);
+          let current = 0; const step = Math.max(1, Math.floor(target / 40));
+          const timer = setInterval(() => { current += step; if (current >= target) { current = target; clearInterval(timer); } el.textContent = current + (target === 98 ? '%' : ''); }, 30);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.counter').forEach(c => counterObserver.observe(c));
+
+    // ====== BACK TO TOP ======
+    const btt = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => { btt.classList.toggle('visible', window.scrollY > 600); });
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // ====== PARALLAX on Hero (subtle) ======
+    window.addEventListener('scroll', () => {
+      const hero = document.querySelector('.hero-bg-pulse');
+      if (hero) { const y = window.scrollY * 0.3; hero.style.transform = `scale(${1.05 + window.scrollY * 0.0001}) translateY(${y}px)`; }
+    });
+  </script>
+</body>
+</html>
